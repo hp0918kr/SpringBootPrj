@@ -46,6 +46,10 @@
             CHG_DT = SYSDATE()
         WHERE
             NOTICE_SEQ = #{notice_seq}
-
     </update>
+    <!-- 게시판 삭제 쿼리 -->
+    <delete id="deleteNoticeInfo" parameterType="NoticeDTO">
+        DELETE FROM NOTICE
+        WHERE NOTICE_SEQ = #{notice_seq}
+    </delete>
 </mapper>

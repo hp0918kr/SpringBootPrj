@@ -25,5 +25,6 @@ public interface INoticeMapper {
 
 
     //게시판 글 삭제
+    void deleteNoticeInfo(NoticeDTO pDTO) throws Exception;
 
 }

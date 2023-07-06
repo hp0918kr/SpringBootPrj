@@ -12,10 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,6 +25,31 @@ import java.util.HashMap;
 
 public class UserInfoController {
     private final IUserInfoService userInfoService;
+
+    /**
+     * 회원가입 전 이메일 중복체크하기(Ajax를 통해 입력한 아이디 정보 받음)
+     * 유효한 이메일을 확인하기 위해 입력된 이메일에 인증번호 포험하여 메일 발송
+     */
+    @ResponseBody
+    @PostMapping(value = "getEmailExists")
+    public UserInfoDTO getEmailExists(HttpServletRequest request) throws Exception {
+
+        log.info(this.getClass().getName() + ".getEmailExists Start!");
+
+        String email = CmmUtil.nvl(request.getParameter("email")); // 회원아이디
+
+        log.info("email : " + email);
+
+        UserInfoDTO pDTO = new UserInfoDTO();
+        pDTO.setEmail(EncryptUtil.encAES128CBC(email));
+
+        // 입력된 이메일이 중복된 이메일인지 조회
+        UserInfoDTO rDTO = Optional.ofNullable(userInfoService.getEmailExists(pDTO)).orElseGet(UserInfoDTO::new);
+
+        log.info(this.getClass().getName() + ".getEmailExists End!");
+
+        return rDTO;
+    }
 
     /**
      * 회원가입 화면으로 이동
@@ -137,7 +164,7 @@ public class UserInfoController {
     }
 
     /**
-     * 로그인을 위한 입력 화면으로 읻ㅎㅇ
+     * 로그인을 위한 입력 화면으로 이동
      */
     @GetMapping(value = "/user/login")
     public String login() {

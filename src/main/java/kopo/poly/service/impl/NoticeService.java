@@ -34,7 +34,7 @@ public class NoticeService implements INoticeService {
 
         log.info(this.getClass().getName() + ".getNoticeInfo Start!");
 
-        //상세보기할 때마다, 조회수 증가하기(수정보기는 제외
+        //상세보기할 때마다, 조회수 증가하기(수정보기는 제외)
         if (type) {
             log.info("Update ReadCNT");
             noticeMapper.updateNoticeReadCnt(pDTO);
@@ -60,5 +60,14 @@ public class NoticeService implements INoticeService {
 
         noticeMapper.updateNoticeInfo(pDTO);
 
+    }
+
+    @Transactional
+    @Override
+    public void deleteNoticeInfo(NoticeDTO pDTO) throws Exception {
+
+        log.info(this.getClass().getName() + ".deleteNoticeInfo Start!");
+
+        noticeMapper.deleteNoticeInfo(pDTO);
     }
 }
