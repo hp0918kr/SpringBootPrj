@@ -27,11 +27,35 @@ public class UserInfoController {
     private final IUserInfoService userInfoService;
 
     /**
+     * 회원가입 전 아이디 중복체크하기(Ajax를 통해 입력한 아이디 정보 받음)
+     */
+    @ResponseBody
+    @PostMapping(value = "/user/getUserIdExists")
+    public UserInfoDTO getUserExists(HttpServletRequest request) throws Exception {
+
+        log.info(this.getClass().getName() + ".getUserIdExists Start!");
+
+        String user_id = CmmUtil.nvl(request.getParameter("user_id")); // 회원아이디
+
+        log.info("user_id : " + user_id);
+
+        UserInfoDTO pDTO = new UserInfoDTO();
+        pDTO.setUser_id(user_id);
+
+        // 회원아이디를 통해 중복된 아이디인지 조회
+        UserInfoDTO rDTO = Optional.ofNullable(userInfoService.getUserIdExists(pDTO)).orElseGet(UserInfoDTO::new);
+
+        log.info(this.getClass().getName() + ".getUserIdExists End!");
+
+        return rDTO;
+    }
+
+    /**
      * 회원가입 전 이메일 중복체크하기(Ajax를 통해 입력한 아이디 정보 받음)
      * 유효한 이메일을 확인하기 위해 입력된 이메일에 인증번호 포험하여 메일 발송
      */
     @ResponseBody
-    @PostMapping(value = "getEmailExists")
+    @PostMapping(value = "/user/getEmailExists")
     public UserInfoDTO getEmailExists(HttpServletRequest request) throws Exception {
 
         log.info(this.getClass().getName() + ".getEmailExists Start!");
@@ -141,9 +165,9 @@ public class UserInfoController {
                 msg = "오류로 인해 회원가입이 실패하였습니다.";
                 url = "/user/userRegForm";
             }
-        } catch (DuplicateKeyException e){
+        } catch (DuplicateKeyException e) {
             msg = "이미 가입된 아이디입니다. 다른 아이디로 변경 후 다시 시도해주세요";
-            url= "/user/userRegForm";
+            url = "/user/userRegForm";
             log.info(e.toString());
             e.printStackTrace();
         } catch (Exception e) {
@@ -229,7 +253,7 @@ public class UserInfoController {
                 //로그인 성공 메세지와 이동할 경로의 url
                 msg = "로그인이 성공했습니다. \n" + rDTO.getUser_name() + "님 환영합니다.";
                 url = "/notice/noticeList";
-            }else{
+            } else {
                 msg = "아이디와 비밀번호를 확인해 주세요.";
                 url = "/user/login";
             }

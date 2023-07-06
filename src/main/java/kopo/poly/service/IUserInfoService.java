@@ -1,7 +1,9 @@
 package kopo.poly.service;
 
 import kopo.poly.dto.UserInfoDTO;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface IUserInfoService {
 
     // 아이디 중복 체크

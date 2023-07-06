@@ -40,5 +40,5 @@ public interface INoticeService {
      * @param pDTO 삭제할 notice_seq 값
      */
 
-    void deleteNoticeInfo(NoticeDTO pDTO) throws Exception;
+ /*   void deleteNoticeInfo(NoticeDTO pDTO) throws Exception;*/
 }

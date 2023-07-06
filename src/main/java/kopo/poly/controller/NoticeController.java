@@ -198,7 +198,7 @@ public class NoticeController {
         if (rDTO == null) rDTO = new NoticeDTO();
         // JAVA 8부터 제공되는 Optional 활용하여 NPE(Null Pointer Exception) 처리
         // NoticeDTO rDTO = Optional.ofNullable(noticeService.getNoticeInfo(pDTO, false))
-        //          .orElseGet(NoticceDTO::new);
+        //          .orElseGet(NoticeDTO::new);
 
         // 조회된 리스트 결과값 넣어주기
         model.addAttribute("rDTO", rDTO);
@@ -265,10 +265,4 @@ public class NoticeController {
 
         return "/redirect";
     }
- /*   @PostMapping(value = "/notice/noticedelete")
-    public String noticeDelete(HttpSession session, ModelMap model, HttpServletRequest request) {
-        noticeDelete("nSeq");
-        return "redirect:/notice/noticeList";
-
-    }*/
 }

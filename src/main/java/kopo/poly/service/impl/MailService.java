@@ -4,7 +4,7 @@ import kopo.poly.dto.MailDTO;
 import kopo.poly.service.IMailService;
 import kopo.poly.util.CmmUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,6 +15,7 @@ import javax.mail.internet.MimeMessage;
 @Slf4j
 @RequiredArgsConstructor
 @Service
+
 public class MailService implements IMailService {
     private final JavaMailSender mailSender;
 
