@@ -9,7 +9,7 @@
         FROM
             USER_INFO
         WHERE
-            USER_ID =#{user_id};
+            USER_ID = #{user_id};
     </select>
 
     <!-- 회원 가입 전 이메일 중복체크하기 -->

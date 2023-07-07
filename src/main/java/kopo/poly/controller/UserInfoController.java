@@ -164,20 +164,24 @@ public class UserInfoController {
             } else {
                 msg = "오류로 인해 회원가입이 실패하였습니다.";
                 url = "/user/userRegForm";
+
             }
         } catch (DuplicateKeyException e) {
             msg = "이미 가입된 아이디입니다. 다른 아이디로 변경 후 다시 시도해주세요";
             url = "/user/userRegForm";
             log.info(e.toString());
             e.printStackTrace();
+
         } catch (Exception e) {
             //저장이 실패되면 사용자에게 보여줄 메시지
-            msg = "실패하였습니다. : " + e;
-            url = "/user/login";
+            msg = "시스템 오류로 실패하였습니다. 다른 아이디로 변경 후 다시 시도해주세요.";
+            url = "/user/userRegForm";
             log.info(e.toString());
             e.printStackTrace();
 
         } finally {
+            log.info("출력할 메세지 : " + msg);
+            log.info("이동할 경로 : " + url);
             modelMap.addAttribute("msg", msg);
             modelMap.addAttribute("url", url);
 
